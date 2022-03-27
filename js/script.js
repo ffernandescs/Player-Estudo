@@ -1,79 +1,182 @@
-let imgArtist = document.querySelector('.imgTrack img');
-let nameTrack = document.querySelector('.textName');
-let nameArtist = document.querySelector('.textArtist');
-let barProgress = document.querySelector('input');
-let curreTimeTrack = document.querySelector('.currentTime');
-let durationTrack = document.querySelector('.duration');
-
+let imgTrack = document.querySelector('.imgTrack img')
+let nameTrack = document.querySelector('.textName')
+let nameArtistTrack = document.querySelector('.textArtist')
+let barProgressTrack = document.querySelector('.slide input')
+let currentTimeTrack = document.querySelector('.currentTime')
+let durationTrack = document.querySelector('.duration')
 let btnRepeat = document.getElementById('repeatTrack');
-let btnPrevTrack = document.getElementById('prevTrack');
+let btnPrevPlay = document.getElementById('prevTrack');
+let btnNextPlay = document.getElementById('nextTrack');
 let btnPlayPause = document.getElementById('playPause');
-let btnNextTrack = document.getElementById('nextTrack');
 let btnListTrack = document.getElementById('listTrack');
+let menuList =  document.querySelector('.listTrackMusic');
+let fecharMenu = document.querySelector('.fecharMenu');
+
+
 
 let track = document.querySelector('audio');
 
-let indeList = 0;
-
+let indexList = 0;
+let timer;
 
 window.addEventListener('load', ()=>{
-    loadingList(indeList);
-});
+    loadingList(indexList);
+})
 
-function loadingList(indeList){
-    imgArtist.src = `assets/img/${arrayFaixas[indeList].img}.jpg`;
-    nameTrack.innerHTML = arrayFaixas[indeList].name;
-    nameArtist.innerHTML = arrayFaixas[indeList].artista;
-    track.src = `assets/music/${arrayFaixas[indeList].src}.mp3`;
+function loadingList(indexList){
+    imgTrack.src = `assets/img/${arrayFaixas[indexList].img}.jpg`
+    track.src = `assets/music/${arrayFaixas[indexList].src}.mp3`
+    nameTrack.innerHTML = arrayFaixas[indexList].name;
+    nameArtistTrack.innerHTML = arrayFaixas[indexList].artista;
+    timer = setInterval(timeProgress, 1000);
+
 }
 
 function playPause(){
     if(track.paused){
         track.play();
-        btnPlayPause.innerHTML = 'pause';
+        btnPlayPause.textContent = 'pause'
     } else {
         track.pause();
-        btnPlayPause.innerHTML = 'play_circle_filled'
+        btnPlayPause.textContent = 'play_circle_filled'
     }
 }
 
-function prevTrack() {
-    indeList--;
-    if(indeList < 0){
-        indeList = 6;
+function prevTrack(){
+    indexList--;
+    if(indexList < 0){
+        indexList = 6;
     }
-    loadingList(indeList);
+    loadingList(indexList);
     track.play();
+    btnPlayPause.textContent = 'pause';
+};
 
-    if(track.play){
-        btnPlayPause.innerHTML = 'pause'
+function nextTrack(){
+    indexList++;
+    if(indexList > 6){
+        indexList = 0;
     }
-}   
-
-function nextTrack() {
-    indeList++;
-    if(indeList > 6){
-        indeList = 0;
-    }
-    loadingList(indeList);
+    loadingList(indexList);
     track.play();
-    if(track.play){
-        btnPlayPause.innerHTML = 'pause'
+    btnPlayPause.textContent = 'pause';
+};
+
+function timeProgress(){
+    let position = 0;
+    if(track.duration){
+        position = track.currentTime * (100 / track.duration);
+        barProgressTrack.value = position;
     }
-}
+};
 
-function repeatTrack() {
-    let repeatTrackMusic = btnRepeat.innerText;
+barProgressTrack.addEventListener('click', (e)=>{
+    let widthProgress = barProgressTrack.clientWidth;
+    let offsetWidth = e.offsetX;
+    let durationAudio = track.duration;
 
-    switch(repeatTrackMusic){
+    track.currentTime = (offsetWidth / widthProgress) * durationAudio;
+    track.play();
+})
+
+track.addEventListener('timeupdate', ()=>{
+    let minCurrent = Math.floor(track.currentTime /60);
+    let secCurrent = Math.floor(track.currentTime % 60);
+    if(secCurrent < 10) {
+        secCurrent = '0' + secCurrent;
+    }
+    currentTimeTrack.innerHTML = minCurrent + ':' + secCurrent;
+});
+
+track.addEventListener('loadeddata', ()=>{
+    let durationReal = track.duration;
+    let totalMin = Math.floor(durationReal / 60);
+    let totalSeconds = Math.floor(durationReal % 60);
+    if(totalSeconds < 10) {
+        totalSeconds = '0' + totalSeconds;
+    }
+    
+    durationTrack.innerHTML = totalMin + ':' + totalSeconds;
+});  
+
+function repeatTrack(){
+    let repeatSwitch = btnRepeat.textContent;
+        switch(repeatSwitch){
+            case'repeat':
+            btnRepeat.textContent = 'repeat_one';
+            break;
+            case'repeat_one':
+            btnRepeat.textContent = 'shuffle';
+            break;
+            case'shuffle':
+            btnRepeat.textContent = 'repeat';
+            break;
+        }
+};
+
+track.addEventListener('ended', ()=>{
+    let repeatSwitch = btnRepeat.textContent;
+    switch(repeatSwitch){
         case'repeat':
-            btnRepeat.innerText = 'repeat_one';
+            nextTrack();
             break;
         case'repeat_one':
-            btnRepeat.innerText = 'shuffle';
+            track.currentTime = 0;
+            track.play();
             break;
         case'shuffle':
-            btnRepeat.innerText = 'repeat';
+            let aleatorioIndex = Math.floor((Math.random()* arrayFaixas.length) + 1);
+            do{
+                aleatorioIndex = Math.floor((Math.random()* arrayFaixas.length) + 1);
+            }while (indexList == aleatorioIndex); 
+            indexList = aleatorioIndex;
+            loadingList(indexList);
+            playPause();
             break;
     }
+})
+
+function listTrack(){
+    menuList.style = 
+    'opacity: 1;' +
+    'display: block;' +
+    'bottom: 0;' +
+    'pointer-events: auto;'
+    fecharMenu.style = 
+    'z-index: 1;'
+}
+
+function closeList() {
+    menuList.style = 
+    'bottom: -55%;' 
+    fecharMenu.style =
+    'z-index: -1;'
+}
+
+fecharMenu.addEventListener('click', fecharList)
+
+function fecharList() {
+    closeList();
+}
+
+
+function colorBackground(){
+    let barraColor = document.querySelector('.contCores');
+    barraColor.style =
+        'right: 0;'
+}
+
+function closeColor() {
+    let barraColor = document.querySelector('.contCores');
+    barraColor.style =
+        'right: -100%;'
+    
+}
+
+function btnBackground(){
+    let containerBackground = document.querySelector('.container');
+    containerBackground.style = 
+    'background-image: radial-gradient(circle at 50% -20.71%, #de9c2c 0, #e5922a 8.33%, #ea852b 16.67%, #ee772d 25%, #f16731 33.33%, #f35436 41.67%, #f23c3c 50%, #f01843 58.33%, #ed004c 66.67%, #e90057 75%, #e30064 83.33%, #db0071 91.67%, #d10080 100%);';
+    menuList.style = 
+    'background-image: radial-gradient(circle at 50% -20.71%, #de9c2c 0, #e5922a 8.33%, #ea852b 16.67%, #ee772d 25%, #f16731 33.33%, #f35436 41.67%, #f23c3c 50%, #f01843 58.33%, #ed004c 66.67%, #e90057 75%, #e30064 83.33%, #db0071 91.67%, #d10080 100%);';
 }
