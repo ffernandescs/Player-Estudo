@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/f84144252b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" rel="stylesheet">
+    <title>Projeto MusicPlayer</title>
+</head>
+<body>  
+  <div class="container">
+    <div class="heead">
+      <h1>Music Player</h1>
+    </div>
+    <div class="imgTrack">
+      <img src="" alt="">
+    </div>
+    <div class="textTrack">
+      <h3 class="textName">Quando deus criou você</h3>
+      <p class="textArtist">Banda Ellos</i>
+    </div>
+    <div class="slide">
+      <input type="range" min="0" max="100" value="10">
+      <audio src="./assets/music/01.mp3"></audio>
+    </div>
+    <div class="timeTrack">
+      <span class="currentTime">0:00</span>
+      <span class="duration">3:45</span>
+    </div>
+    <div class="controles">
+      <span id="repeatTrack" class="material-icons-outlined" onclick="repeatTrack()">repeat</span>
+      <span id="prevTrack" class="material-icons-outlined" onclick="prevTrack()">skip_previous</span>
+      <span id="playPause" class="material-icons-outlined" onclick="playPause()">play_circle_filled</span>
+      <span id="nextTrack" class="material-icons-outlined" onclick="nextTrack()">skip_next</span>
+      <span id="listTrack" class="material-icons-outlined" onclick="listTrack()">queue_music</span>
+    </div>
+  </div>
+  <script src="https://sdk.scdn.co/spotify-player.js"></script>
+  <script src="./js/musicList.js"></script>
+  <script src="./js/script.js"></script>
+</body>
+</html>
