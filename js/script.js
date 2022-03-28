@@ -114,43 +114,35 @@ for (let i = 0; i < arrayFaixas.length; i++) {
   });
 }
 
-const tagsLi = document.querySelectorAll('li');
-let audioTag = tagsLi[p].querySelector('.icoPlay');
-for (let p = 0; p <tagsLi.length; p++){
-    if(tagsLi[p].getAttribute('li-index') ==indexList){
-        tagsLi[p].classList.add('playing');
-        audioTag.innerText = 'pause';
-    }
+function playingMusic(){
+    const allLiTag = ulTag.querySelectorAll("li");
+    
+    for (let j = 0; j < allLiTag.length; j++) {
+      let audioTag = allLiTag[j].querySelector(".listTrack2");
+      
+      if(allLiTag[j].classList.contains("playing")){
+        allLiTag[j].classList.remove("playing");
+        audioTag.innerText = "play_arrow";
 
-    tagsLi[p].setAttribute("onclick", "clicked(this)");
-}
+      }
+  
+      //if the li tag index is equal to the musicIndex then add playing class in it
+      if(allLiTag[j].getAttribute("li-index") == indexList){
+        allLiTag[j].classList.add("playing");
+        audioTag.innerText = "pause";
+      }
+  
+      allLiTag[j].setAttribute("onclick", "clicked(this)");
+    }
+  }
 
 function clicked(element){
     let getIndexLi = element.getAttribute('li-index');
     indexList = getIndexLi;
     loadingList(indexList);
     playPause();
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    playingMusic();
+};
 function repeatTrack(){
     let repeatSwitch = btnRepeat.textContent;
         switch(repeatSwitch){
