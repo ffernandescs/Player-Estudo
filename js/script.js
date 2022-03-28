@@ -118,7 +118,7 @@ function playingMusic(){
     const allLiTag = ulTag.querySelectorAll("li");
     
     for (let j = 0; j < allLiTag.length; j++) {
-      let audioTag = allLiTag[j].querySelector(".listTrack2");
+      let audioTag = allLiTag[j].querySelector(".icoPlay");
       
       if(allLiTag[j].classList.contains("playing")){
         allLiTag[j].classList.remove("playing");
