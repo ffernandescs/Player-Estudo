@@ -2,8 +2,6 @@ let imgTrack = document.querySelector('.imgTrack img')
 let nameTrack = document.querySelector('.textName')
 let nameArtistTrack = document.querySelector('.textArtist')
 let barProgressTrack = document.querySelector('.slide input')
-let currentTimeTrack = document.querySelector('.currentTime')
-let durationTrack = document.querySelector('.duration')
 let btnRepeat = document.getElementById('repeatTrack');
 let btnPrevPlay = document.getElementById('prevTrack');
 let btnNextPlay = document.getElementById('nextTrack');
@@ -12,12 +10,9 @@ let btnListTrack = document.getElementById('listTrack');
 let menuList =  document.querySelector('.listTrackMusic');
 let fecharMenu = document.querySelector('.fecharMenu');
 
-
-
 let track = document.querySelector('audio');
 
 let indexList = 0;
-let timer;
 
 window.addEventListener('load', ()=>{
     loadingList(indexList);
@@ -28,8 +23,6 @@ function loadingList(indexList){
     track.src = `assets/music/${arrayFaixas[indexList].src}.mp3`
     nameTrack.innerHTML = arrayFaixas[indexList].name;
     nameArtistTrack.innerHTML = arrayFaixas[indexList].artista;
-    timer = setInterval(timeProgress, 1000);
-
 }
 
 function playPause(){
@@ -62,14 +55,6 @@ function nextTrack(){
     btnPlayPause.textContent = 'pause';
 };
 
-function timeProgress(){
-    let position = 0;
-    if(track.duration){
-        position = track.currentTime * (100 / track.duration);
-        barProgressTrack.value = position;
-    }
-};
-
 barProgressTrack.addEventListener('click', (e)=>{
     let widthProgress = barProgressTrack.clientWidth;
     let offsetWidth = e.offsetX;
@@ -77,27 +62,92 @@ barProgressTrack.addEventListener('click', (e)=>{
 
     track.currentTime = (offsetWidth / widthProgress) * durationAudio;
     track.play();
-})
-
-track.addEventListener('timeupdate', ()=>{
-    let minCurrent = Math.floor(track.currentTime /60);
-    let secCurrent = Math.floor(track.currentTime % 60);
-    if(secCurrent < 10) {
-        secCurrent = '0' + secCurrent;
-    }
-    currentTimeTrack.innerHTML = minCurrent + ':' + secCurrent;
+    btnPlayPause.innerHTML = 'pause'
 });
 
-track.addEventListener('loadeddata', ()=>{
-    let durationReal = track.duration;
-    let totalMin = Math.floor(durationReal / 60);
-    let totalSeconds = Math.floor(durationReal % 60);
-    if(totalSeconds < 10) {
-        totalSeconds = '0' + totalSeconds;
+track.addEventListener('timeupdate', (e)=>{
+    let currentTimeTrack = document.querySelector('.currentTime')
+    let durationTrack = document.querySelector('.duration')
+    track.addEventListener('loadeddata', ()=>{
+        let trackAudioDuration = track.duration;
+        let totalMin = Math.floor(trackAudioDuration / 60);
+        let totalSec = Math.floor(trackAudioDuration % 60);
+        if(totalSec < 10){
+            totalSec = '0' + totalSec;
+        }
+        durationTrack.innerHTML = `${totalMin}:${totalSec}`;
+    });
+    let currentMin = Math.floor(track.currentTime / 60);
+    let currentSec = Math.floor(track.currentTime % 60);
+    if(currentSec < 10){
+        currentSec = `0${currentSec}`;
     }
-    
-    durationTrack.innerHTML = totalMin + ':' + totalSeconds;
-});  
+    currentTimeTrack.innerText = `${currentMin}:${currentSec}`;
+})
+
+const ulTag = document.querySelector("ul");
+for (let i = 0; i < arrayFaixas.length; i++) {
+  let liTag = `<li li-index="${i}" class="listPlay">
+  <div class="textInfo">
+    <p class="textTrackMusic">${arrayFaixas[i].name}</p>
+    <p class="textArtistMusic">${arrayFaixas[i].artista}</p>
+  </div>
+  <div class="textPlay">
+    <span id="listTrack2" class="material-icons" onclick="listTrack()">play_arrow</span>
+    <span id="${arrayFaixas[i].src}">3:45</span>
+    <audio id="test" class="${arrayFaixas[i].src}" src="assets/music/${arrayFaixas[i].src}.mp3"></audio>
+  </div>
+</li>`;
+  ulTag.insertAdjacentHTML("beforeend", liTag); 
+
+  let liAudioDuartionTag = document.querySelector(`#${arrayFaixas[i].src}`);
+  let liAudioTag = document.querySelector(`.${arrayFaixas[i].src}`);
+  liAudioTag.addEventListener("loadeddata", ()=>{
+    let duration = liAudioTag.duration;
+    let totalMin = Math.floor(duration / 60);
+    let totalSec = Math.floor(duration % 60);
+    if(totalSec < 10){ 
+      totalSec = `0${totalSec}`;
+    };
+    liAudioDuartionTag.innerText = `${totalMin}:${totalSec}`; 
+    liAudioDuartionTag.setAttribute("t-duration", `${totalMin}:${totalSec}`);
+  });
+}
+
+const tagsLi = document.querySelectorAll('li');
+for (let p = 0; p <tagsLi.length; p++){
+    if(tagsLi[p].getAttribute('li-index') ==indexList){
+        tagsLi[p].classList.add('playing');
+    }
+
+    tagsLi[p].setAttribute("onclick", "clicked(this)");
+}
+
+function clicked(element){
+    let getIndexLi = element.getAttribute('li-index');
+    indexList = getIndexLi;
+    loadingList(indexList);
+    playPause();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function repeatTrack(){
     let repeatSwitch = btnRepeat.textContent;
@@ -113,6 +163,7 @@ function repeatTrack(){
             break;
         }
 };
+
 
 track.addEventListener('ended', ()=>{
     let repeatSwitch = btnRepeat.textContent;
@@ -131,10 +182,10 @@ track.addEventListener('ended', ()=>{
             }while (indexList == aleatorioIndex); 
             indexList = aleatorioIndex;
             loadingList(indexList);
-            playPause();
+            track.play();
             break;
     }
-})
+});
 
 function listTrack(){
     menuList.style = 

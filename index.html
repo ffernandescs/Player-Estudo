@@ -30,7 +30,8 @@
     </div>
     <div class="slide">
       <input type="range" min="0" max="100" value="0">
-      <audio src="./assets/music/01.mp3"></audio>
+      <audio src=""></audio>
+      <audio id="loadAudio" src=""></audio>
     </div>
     <div class="timeTrack">
       <span class="currentTime">0:00</span>
@@ -45,97 +46,18 @@
     </div>
     <div class="listTrackMusic">
       <div class="contListMusic">
-        <span id="listTrack" class="material-icons" onclick="listTrack()">queue_music</span>
+        <span id="listTrack" class="material-icons">queue_music</span>
         <p>Music List</p>
         <span id="close" class="material-icons" onclick="closeList()">close</span>
       </div>
-        <ul>
-          <li class="listPlay">
-            <div class="textInfo">
-              <p class="textTrackMusic">Quando deus criou voçe</p>
-              <p class="textArtistMusic">Banda Ellos</p>
-            </div>
-            <div class="textPlay">
-              <span id="listTrack" class="material-icons">play_arrow</span>
-              <span class="duration">3:45</span>
-            </div>
-          </li>
-          <li class="listPlay">
-            <div class="textInfo">
-              <p class="textTrackMusic">Quando deus criou voçe</p>
-              <p class="textArtistMusic">Banda Ellos</p>
-            </div>
-            <div class="textPlay">
-              <span id="listTrack" class="material-icons">play_arrow</span>
-              <span class="duration">3:45</span>
-            </div>
-          </li>
-          <li class="listPlay">
-            <div class="textInfo">
-              <p class="textTrackMusic">Quando deus criou voçe</p>
-              <p class="textArtistMusic">Banda Ellos</p>
-            </div>
-            <div class="textPlay">
-              <span id="listTrack" class="material-icons">play_arrow</span>
-              <span class="duration">3:45</span>
-            </div>
-          </li>
-          <li class="listPlay">
-            <div class="textInfo">
-              <p class="textTrackMusic">Quando deus criou voçe</p>
-              <p class="textArtistMusic">Banda Ellos</p>
-            </div>
-            <div class="textPlay">
-              <span id="listTrack" class="material-icons">play_arrow</span>
-              <span class="duration">3:45</span>
-            </div>
-          </li>
-          <li class="listPlay">
-            <div class="textInfo">
-              <p class="textTrackMusic">Quando deus criou voçe</p>
-              <p class="textArtistMusic">Banda Ellos</p>
-            </div>
-            <div class="textPlay">
-              <span id="listTrack" class="material-icons">play_arrow</span>
-              <span class="duration">3:45</span>
-            </div>
-          </li>
-          <li class="listPlay">
-            <div class="textInfo">
-              <p class="textTrackMusic">Quando deus criou voçe</p>
-              <p class="textArtistMusic">Banda Ellos</p>
-            </div>
-            <div class="textPlay">
-              <span id="listTrack" class="material-icons">play_arrow</span>
-              <span class="duration">3:45</span>
-            </div>
-          </li>
-          <li class="listPlay">
-            <div class="textInfo">
-              <p class="textTrackMusic">Quando deus criou voçe</p>
-              <p class="textArtistMusic">Banda Ellos</p>
-            </div>
-            <div class="textPlay">
-              <span id="listTrack" class="material-icons">play_arrow</span>
-              <span class="duration">3:45</span>
-            </div>
-          </li>
-          <li class="listPlay">
-            <div class="textInfo">
-              <p class="textTrackMusic">Quando deus criou voçe</p>
-              <p class="textArtistMusic">Banda Ellos</p>
-            </div>
-            <div class="textPlay">
-              <span id="listTrack" class="material-icons">play_arrow</span>
-              <span class="duration">3:45</span>
-            </div>
-          </li>
-        </ul>
+      <ul class="listMusicAudio">
+        
+      </ul>
       </div>
     </div>
   </div>
+  
   <div class="fecharMenu"></div>
-  <script src="https://sdk.scdn.co/spotify-player.js"></script>
   <script src="./js/musicList.js"></script>
   <script src="./js/script.js"></script>
 </body>

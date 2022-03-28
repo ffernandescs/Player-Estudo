@@ -130,7 +130,6 @@ input::-webkit-slider-thumb{
     bottom: -55%;
     height: 260px;
     z-index: 5;
-    background-blend-mode: screen ;
     transition: all 0.15s ease-in-out;
 }
 
@@ -191,6 +190,7 @@ ul {
 
 .textInfo p {
     margin: 5px;
+    
 }
 
 .textArtistMusic {
@@ -203,9 +203,17 @@ ul {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 100%;
+    width: 80px;
+}
+
+#listTrack2 {
+    cursor: pointer;
+
 }
 
 .textPlay span {
+    
     padding: 5px;
 }
 
@@ -217,7 +225,7 @@ ul {
     position: absolute;
     width: 100%;
     height: 100vh;
-    z-index: -1;
+    z-index: -155;
 }
 
 .altColorBack {
@@ -263,5 +271,7 @@ ul {
     font-size: 30px;
     cursor: pointer;
 }
+
+
 
 
