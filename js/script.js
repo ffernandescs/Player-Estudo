@@ -93,7 +93,7 @@ for (let i = 0; i < arrayFaixas.length; i++) {
     <p class="textArtistMusic">${arrayFaixas[i].artista}</p>
   </div>
   <div class="textPlay">
-    <span id="listTrack2" class="material-icons" onclick="listTrack()">play_arrow</span>
+    <span id="listTrack2" class="material-icons icoPlay" onclick="listTrack()">play_arrow</span>
     <span id="${arrayFaixas[i].src}">3:45</span>
     <audio id="test" class="${arrayFaixas[i].src}" src="assets/music/${arrayFaixas[i].src}.mp3"></audio>
   </div>
@@ -115,9 +115,11 @@ for (let i = 0; i < arrayFaixas.length; i++) {
 }
 
 const tagsLi = document.querySelectorAll('li');
+let audioTag = tagsLi[p].querySelector('.icoPlay');
 for (let p = 0; p <tagsLi.length; p++){
     if(tagsLi[p].getAttribute('li-index') ==indexList){
         tagsLi[p].classList.add('playing');
+        audioTag.innerText = 'pause';
     }
 
     tagsLi[p].setAttribute("onclick", "clicked(this)");
